@@ -6,15 +6,10 @@ using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Services
 {
@@ -36,13 +31,13 @@ namespace BusinessLogic.Services
 
             if (!_context.Users.Any(x => x.Username == userDto.UserName))
             {
-            CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
             }
             else
             {
@@ -52,8 +47,8 @@ namespace BusinessLogic.Services
         public async Task<string> Login(UserDto userDto)
         {
             var user = await (from u in _context.Users
-                       where u.Username == userDto.UserName
-                       select u).FirstOrDefaultAsync();
+                              where u.Username == userDto.UserName
+                              select u).FirstOrDefaultAsync();
 
             if (user == null)
             {
@@ -61,7 +56,7 @@ namespace BusinessLogic.Services
             }
             if (!VerifyPasswordHash(userDto.Password, user.PasswordHash, user.PasswordSalt))
             {
-                throw new KeyNotFoundException("La contraseña es incorrecta."); 
+                throw new KeyNotFoundException("La contraseña es incorrecta.");
             }
 
             string token = CreateToken(user);

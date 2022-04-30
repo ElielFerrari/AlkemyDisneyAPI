@@ -41,14 +41,15 @@ namespace Controllers
             {
                 return Ok(await _userService.Login(userDto));
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
             catch
             {
                 return BadRequest("Algo salió mal.")
-;           }
+;
+            }
         }
     }
 }

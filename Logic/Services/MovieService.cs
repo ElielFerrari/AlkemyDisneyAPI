@@ -3,11 +3,6 @@ using BusinessLogic.Dto;
 using DataAccess;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Services
 {
@@ -20,15 +15,15 @@ namespace BusinessLogic.Services
             _context = context;
             _mapper = mapper;
         }
-        public async Task<List<MoviesDto>> GetAll(MovieFilterDto moviesFilterDto, string order)
+        public async Task<List<MoviesDto>> GetAll(MovieFilterDto moviesFilterDto)
         {
             var movie = from m in _context.Movies
                         where (moviesFilterDto.Title == null || m.Title == moviesFilterDto.Title)
-                        && (moviesFilterDto.GenreId == 0 || (m.Genres != null
-                        && m.Genres.Any(g => g.GenreId == moviesFilterDto.GenreId)))
+                        && (moviesFilterDto.GenreId == 0 || m.Genres
+                        .Where(x => x.GenreId == moviesFilterDto.GenreId).Any())
                         select new MoviesDto { Title = m.Title, Image = m.Image, Release = m.Release };
 
-            switch (order)
+            switch (moviesFilterDto.Order)
             {
                 case "ASC":
                     return await movie.OrderBy(movie => movie.Release).ToListAsync();
@@ -36,7 +31,8 @@ namespace BusinessLogic.Services
                 case "DESC":
                     return await movie.OrderByDescending(movie => movie.Release).ToListAsync();
 
-                case string when ((order != "ASC") || (order != "DESC") && order != null):
+                case string when ((moviesFilterDto.Order != "ASC") || (moviesFilterDto.Order != "DESC")
+                                 && moviesFilterDto.Order != null):
                     throw new ArgumentException("Solo se pueden usar las palabras clave: 'ASC' o 'DESC'.");
 
                 default:

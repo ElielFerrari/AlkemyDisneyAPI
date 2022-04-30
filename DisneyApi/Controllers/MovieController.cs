@@ -2,15 +2,10 @@
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MovieController : Controller
@@ -23,11 +18,11 @@ namespace Controllers
         }
 
         [HttpGet] //Get all movies
-        public async Task<ActionResult> GetAll([FromQuery] MovieFilterDto moviesFilterDto, [FromQuery] string order)
+        public async Task<ActionResult> GetAll([FromQuery] MovieFilterDto moviesFilterDto)
         {
             try
             {
-                return Ok(await _movieService.GetAll(moviesFilterDto, order));
+                return Ok(await _movieService.GetAll(moviesFilterDto));
             }
             catch (ArgumentException ex)
             {
@@ -85,7 +80,7 @@ namespace Controllers
             {
                 return NotFound(ex.Message);
             }
-            catch 
+            catch
             {
                 return BadRequest("Algo salió mal");
             }

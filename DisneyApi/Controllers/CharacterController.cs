@@ -1,14 +1,12 @@
 ﻿using BusinessLogic.Dto;
-using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CharactersController : ControllerBase
@@ -27,7 +25,7 @@ namespace Controllers
             {
                 return Ok(await _characterService.GetAll(characterFilterDto));
             }
-            catch 
+            catch
             {
                 return BadRequest("Algo salió mal.");
             }
@@ -44,7 +42,7 @@ namespace Controllers
             {
                 return NotFound(ex.Message);
             }
-            catch 
+            catch
             {
                 return BadRequest("Algo salió mal.");
             }
@@ -80,14 +78,14 @@ namespace Controllers
             {
                 return NotFound(ex.Message);
             }
-            catch 
+            catch
             {
                 return BadRequest("Algo salió mal.");
             }
         }
 
         [HttpDelete]//Delete character
-        public async Task<ActionResult> DeleteCharacter([FromQuery]int id)
+        public async Task<ActionResult> DeleteCharacter([FromQuery] int id)
         {
             try
             {
@@ -123,7 +121,7 @@ namespace Controllers
         }
 
         [HttpDelete("{characterId}/movie")]//Delete Relationship
-        public async Task<ActionResult> DeleteRelationship(int characterId, int  movieId)
+        public async Task<ActionResult> DeleteRelationship(int characterId, int movieId)
         {
             try
             {

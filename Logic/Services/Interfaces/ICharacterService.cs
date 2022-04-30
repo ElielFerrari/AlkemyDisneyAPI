@@ -1,6 +1,4 @@
 ﻿using BusinessLogic.Dto;
-using DataAccess.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessLogic.Services.Interfaces
 {

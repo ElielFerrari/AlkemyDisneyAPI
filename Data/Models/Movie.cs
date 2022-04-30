@@ -10,5 +10,5 @@
         public List<Character> Characters { get; set; } = new List<Character>();
         public List<Genre> Genres { get; set; } = new List<Genre>();
     }
-  
+
 }

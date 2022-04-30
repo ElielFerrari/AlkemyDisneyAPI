@@ -3,7 +3,6 @@ using BusinessLogic.Dto;
 using BusinessLogic.Services.Interfaces;
 using DataAccess;
 using DataAccess.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services
@@ -22,12 +21,9 @@ namespace BusinessLogic.Services
             var character = from c in _context.Characters
                             where (characterFilterDto.Name == null || c.Name == characterFilterDto.Name)
                             && (characterFilterDto.Age == 0 || c.Age == characterFilterDto.Age)
+                            && (characterFilterDto.MovieId == 0 || c.Movies
+                            .Where(x => x.MovieId == characterFilterDto.MovieId).Any())
                             select new CharactersDto { Name = c.Name, Image = c.Image };
-
-            var movieId = from c in _context.Characters.Include(x => x.Movies)
-                          where characterFilterDto.MovieId == 0 || (c.Movies != null
-                          && c.Movies.Any(x => x.MovieId == characterFilterDto.MovieId))
-                          select c;
 
             return await character.ToListAsync();
         }

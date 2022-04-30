@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Dto
 {
-    public class MovieDto
+    public class NewMovieDto
     {
-        public int MovieId { get; set; }
         public string Title { get; set; }
         public byte[] Image { get; set; }
         public DateTime Release { get; set; }
         [Range (0 , 5)]
         public int Rate { get; set; }
-        public List<CharacterDto> Characters { get; set; }
-        public List<GenreDto> Genres { get; set; }
+        public List<int> CharacterId { get; set; }
+        public List<int> GenreId { get; set; }
     }
 }

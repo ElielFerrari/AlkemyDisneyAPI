@@ -13,7 +13,7 @@ namespace DataAccess.Migrations
                 name: "Characters",
                 columns: table => new
                 {
-                    CharacterID = table.Column<int>(type: "int", nullable: false)
+                    CharacterId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
@@ -23,21 +23,21 @@ namespace DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Characters", x => x.CharacterID);
+                    table.PrimaryKey("PK_Characters", x => x.CharacterId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
                 {
-                    GenreID = table.Column<int>(type: "int", nullable: false)
+                    GenreId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Genres", x => x.GenreID);
+                    table.PrimaryKey("PK_Genres", x => x.GenreId);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,7 +48,7 @@ namespace DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    Release = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Release = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Rate = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -62,7 +62,7 @@ namespace DataAccess.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
@@ -76,17 +76,17 @@ namespace DataAccess.Migrations
                 name: "CharacterMovie",
                 columns: table => new
                 {
-                    CharactersCharacterID = table.Column<int>(type: "int", nullable: false),
+                    CharactersCharacterId = table.Column<int>(type: "int", nullable: false),
                     MoviesMovieId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CharacterMovie", x => new { x.CharactersCharacterID, x.MoviesMovieId });
+                    table.PrimaryKey("PK_CharacterMovie", x => new { x.CharactersCharacterId, x.MoviesMovieId });
                     table.ForeignKey(
-                        name: "FK_CharacterMovie_Characters_CharactersCharacterID",
-                        column: x => x.CharactersCharacterID,
+                        name: "FK_CharacterMovie_Characters_CharactersCharacterId",
+                        column: x => x.CharactersCharacterId,
                         principalTable: "Characters",
-                        principalColumn: "CharacterID",
+                        principalColumn: "CharacterId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CharacterMovie_Movies_MoviesMovieId",
@@ -100,17 +100,17 @@ namespace DataAccess.Migrations
                 name: "GenreMovie",
                 columns: table => new
                 {
-                    GenresGenreID = table.Column<int>(type: "int", nullable: false),
+                    GenresGenreId = table.Column<int>(type: "int", nullable: false),
                     MoviesMovieId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GenreMovie", x => new { x.GenresGenreID, x.MoviesMovieId });
+                    table.PrimaryKey("PK_GenreMovie", x => new { x.GenresGenreId, x.MoviesMovieId });
                     table.ForeignKey(
-                        name: "FK_GenreMovie_Genres_GenresGenreID",
-                        column: x => x.GenresGenreID,
+                        name: "FK_GenreMovie_Genres_GenresGenreId",
+                        column: x => x.GenresGenreId,
                         principalTable: "Genres",
-                        principalColumn: "GenreID",
+                        principalColumn: "GenreId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_GenreMovie_Movies_MoviesMovieId",
@@ -122,12 +122,12 @@ namespace DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Genres",
-                columns: new[] { "GenreID", "Image", "Name" },
+                columns: new[] { "GenreId", "Image", "Name" },
                 values: new object[,]
                 {
                     { 1, null, "Acción" },
                     { 2, null, "Anime" },
-                    { 3, null, "Comedias" },
+                    { 3, null, "Comedia" },
                     { 4, null, "Fantasía" },
                     { 5, null, "Documentales" },
                     { 6, null, "Romance" },

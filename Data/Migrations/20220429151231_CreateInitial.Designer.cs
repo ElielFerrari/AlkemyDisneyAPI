@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220422200056_CreateInitial")]
+    [Migration("20220429151231_CreateInitial")]
     partial class CreateInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,13 +26,13 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("CharacterMovie", b =>
                 {
-                    b.Property<int>("CharactersCharacterID")
+                    b.Property<int>("CharactersCharacterId")
                         .HasColumnType("int");
 
                     b.Property<int>("MoviesMovieId")
                         .HasColumnType("int");
 
-                    b.HasKey("CharactersCharacterID", "MoviesMovieId");
+                    b.HasKey("CharactersCharacterId", "MoviesMovieId");
 
                     b.HasIndex("MoviesMovieId");
 
@@ -41,11 +41,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Models.Character", b =>
                 {
-                    b.Property<int>("CharacterID")
+                    b.Property<int>("CharacterId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CharacterID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CharacterId"), 1L, 1);
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -62,18 +62,18 @@ namespace DataAccess.Migrations
                     b.Property<int>("Weight")
                         .HasColumnType("int");
 
-                    b.HasKey("CharacterID");
+                    b.HasKey("CharacterId");
 
                     b.ToTable("Characters");
                 });
 
             modelBuilder.Entity("DataAccess.Models.Genre", b =>
                 {
-                    b.Property<int>("GenreID")
+                    b.Property<int>("GenreId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GenreID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GenreId"), 1L, 1);
 
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
@@ -81,69 +81,69 @@ namespace DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("GenreID");
+                    b.HasKey("GenreId");
 
                     b.ToTable("Genres");
 
                     b.HasData(
                         new
                         {
-                            GenreID = 1,
+                            GenreId = 1,
                             Name = "Acción"
                         },
                         new
                         {
-                            GenreID = 2,
+                            GenreId = 2,
                             Name = "Anime"
                         },
                         new
                         {
-                            GenreID = 3,
-                            Name = "Comedias"
+                            GenreId = 3,
+                            Name = "Comedia"
                         },
                         new
                         {
-                            GenreID = 4,
+                            GenreId = 4,
                             Name = "Fantasía"
                         },
                         new
                         {
-                            GenreID = 5,
+                            GenreId = 5,
                             Name = "Documentales"
                         },
                         new
                         {
-                            GenreID = 6,
+                            GenreId = 6,
                             Name = "Romance"
                         },
                         new
                         {
-                            GenreID = 7,
+                            GenreId = 7,
                             Name = "Sci-fi"
                         },
                         new
                         {
-                            GenreID = 8,
+                            GenreId = 8,
                             Name = "De Argentina"
                         },
                         new
                         {
-                            GenreID = 9,
+                            GenreId = 9,
                             Name = "Internacionales"
                         },
                         new
                         {
-                            GenreID = 10,
+                            GenreId = 10,
                             Name = "Independientes"
                         },
                         new
                         {
-                            GenreID = 11,
+                            GenreId = 11,
                             Name = "Terror"
                         },
                         new
                         {
-                            GenreID = 12,
+                            GenreId = 12,
                             Name = "Suspenso"
                         });
                 });
@@ -162,7 +162,7 @@ namespace DataAccess.Migrations
                     b.Property<int>("Rate")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Release")
+                    b.Property<DateTime>("Release")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
@@ -191,7 +191,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
@@ -201,13 +200,13 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("GenreMovie", b =>
                 {
-                    b.Property<int>("GenresGenreID")
+                    b.Property<int>("GenresGenreId")
                         .HasColumnType("int");
 
                     b.Property<int>("MoviesMovieId")
                         .HasColumnType("int");
 
-                    b.HasKey("GenresGenreID", "MoviesMovieId");
+                    b.HasKey("GenresGenreId", "MoviesMovieId");
 
                     b.HasIndex("MoviesMovieId");
 
@@ -218,7 +217,7 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("DataAccess.Models.Character", null)
                         .WithMany()
-                        .HasForeignKey("CharactersCharacterID")
+                        .HasForeignKey("CharactersCharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -233,7 +232,7 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("DataAccess.Models.Genre", null)
                         .WithMany()
-                        .HasForeignKey("GenresGenreID")
+                        .HasForeignKey("GenresGenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

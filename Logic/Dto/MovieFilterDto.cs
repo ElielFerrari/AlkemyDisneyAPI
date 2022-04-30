@@ -8,7 +8,7 @@ namespace BusinessLogic.Dto
 {
     public class MovieFilterDto
     {
-        public string? Title { get; set; }
+        public string Title { get; set; }
         public int GenreId { get; set; }
         public DateTime Release{ get; set; }
     }

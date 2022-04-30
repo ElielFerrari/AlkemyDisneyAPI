@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Dto
 {
-    public class MovieDto
+    public class UpdateMovieDto
     {
         public int MovieId { get; set; }
         public string Title { get; set; }
@@ -16,7 +16,5 @@ namespace BusinessLogic.Dto
         public DateTime Release { get; set; }
         [Range (0 , 5)]
         public int Rate { get; set; }
-        public List<CharacterDto> Characters { get; set; }
-        public List<GenreDto> Genres { get; set; }
     }
 }

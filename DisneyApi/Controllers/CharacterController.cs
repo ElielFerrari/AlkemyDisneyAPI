@@ -1,12 +1,14 @@
 ﻿using BusinessLogic.Dto;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CharactersController : ControllerBase
@@ -17,57 +19,73 @@ namespace Controllers
         {
             _characterService = characterService;
         }
+
         [HttpGet] //Get all characters
-        public async Task<ActionResult<List<CharactersDto>>> GetAll([FromQuery] CharacterFilterDto characterFilterDto)
+        public async Task<ActionResult> GetAll([FromQuery] CharacterFilterDto characterFilterDto)
         {
             try
             {
                 return Ok(await _characterService.GetAll(characterFilterDto));
             }
-            catch (Exception ex)
+            catch 
             {
                 return BadRequest("Algo salió mal.");
             }
         }
+
         [HttpGet("{id}")] //Get one character
-        public async Task<ActionResult<CharacterDto>> GetCharacter([FromQuery]int id)
+        public async Task<ActionResult> GetCharacter(int id)
         {
             try
             {
-                return Ok(await _characterService.GetOne(id));
+                return Ok(await _characterService.GetCharacter(id));
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch 
             {
                 return BadRequest("Algo salió mal.");
             }
         }
+
         [HttpPost] //Create character
-        public async Task<ActionResult> AddCharacter(CharacterDto characterDto)
+        public async Task<ActionResult> AddCharacter(NewCharacterDto characterDto)
         {
             try
             {
                 await _characterService.AddCharacter(characterDto);
                 return Ok("Creaste un personaje.");
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch
             {
                 return BadRequest("Algo salió mal.");
             }
         }
-        
-        [HttpPut] //Update character
-        public async Task<ActionResult<CharacterDto>> UpdateCharacter(CharacterDto characterDto,[FromQuery] int id)
-        {
 
+        [HttpPut] //Update character
+        public async Task<ActionResult> UpdateCharacter(UpdateCharacterDto characterDto)
+        {
             try
             {
-                return Ok(await _characterService.UpdateCharacter(characterDto, id));
+                await _characterService.UpdateCharacter(characterDto);
+                return Ok("Personaje actualizado con éxito.");
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch 
             {
                 return BadRequest("Algo salió mal.");
             }
         }
+
         [HttpDelete]//Delete character
         public async Task<ActionResult> DeleteCharacter([FromQuery]int id)
         {
@@ -76,7 +94,47 @@ namespace Controllers
                 await _characterService.DeleteCharacter(id);
                 return Ok($"El personaje con id:{id} ha sido eliminado.");
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch
+            {
+                return BadRequest("Algo salió mal.");
+            }
+        }
+
+        [HttpPost("{characterId}/movie")]//Create Relationship
+        public async Task<ActionResult> AddRelationship(int characterId, int movieId)
+        {
+            try
+            {
+                await _characterService.AddRelationship(characterId, movieId);
+                return Ok("La relación fue creada con éxito.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch
+            {
+                return BadRequest("Algo salió mal.");
+            }
+        }
+
+        [HttpDelete("{characterId}/movie")]//Delete Relationship
+        public async Task<ActionResult> DeleteRelationship(int characterId, int  movieId)
+        {
+            try
+            {
+                await _characterService.DeleteRelationship(characterId, movieId);
+                return Ok("La relación fue eliminada con éxito.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch
             {
                 return BadRequest("Algo salió mal.");
             }

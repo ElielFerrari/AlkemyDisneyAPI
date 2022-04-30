@@ -9,15 +9,20 @@ namespace DisneyApi
         public MapperProfile()
         {
             //Character
-            CreateMap<CharacterDto, Character>();
-            CreateMap<Character, CharacterDto>();
-            CreateMap<CharactersDto, Character>();
-            CreateMap<Character, CharactersDto>();
+            CreateMap<CharacterDto, Character>().ReverseMap();
+            CreateMap<CharactersDto, Character>().ReverseMap();
+            CreateMap<Character, NewCharacterDto>().ReverseMap();
+            CreateMap<Character, UpdateCharacterDto>().ReverseMap();
             //Movie
-            CreateMap<MovieDto, Movie>();
-            CreateMap<Movie, MovieDto>();
-            CreateMap<MoviesDto, MovieDto>();
-            CreateMap<Movie, MoviesDto>();
+            CreateMap<Movie, MovieDto>().ReverseMap();
+            CreateMap<Movie, MoviesDto>().ReverseMap();
+            CreateMap<MoviesDto, MovieDto>().ReverseMap();
+            CreateMap<Movie, NewMovieDto>().ReverseMap();
+            CreateMap<Movie, UpdateMovieDto>().ReverseMap();
+            CreateMap<Genre, GenreDto>().ReverseMap();
+
+            //User
+            CreateMap<User, UserDto>().ReverseMap();
         }
     }
 }

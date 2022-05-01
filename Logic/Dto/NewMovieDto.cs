@@ -5,7 +5,6 @@ namespace BusinessLogic.Dto
     public class NewMovieDto
     {
         public string Title { get; set; }
-        public byte[] Image { get; set; }
         public DateTime Release { get; set; }
         [Range(0, 5)]
         public int Rate { get; set; }

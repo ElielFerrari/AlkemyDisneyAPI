@@ -6,8 +6,8 @@ namespace DataAccess
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-        public DbSet<User> Users { get; set; } = null!;
-        public DbSet<Character> Characters { get; set; } = null!;
+        public DbSet<User> Users { get; set; }
+        public DbSet<Character> Characters { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Genre> Genres { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

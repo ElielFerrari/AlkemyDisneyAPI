@@ -21,7 +21,7 @@ namespace BusinessLogic.Services
                         where (moviesFilterDto.Title == null || m.Title == moviesFilterDto.Title)
                         && (moviesFilterDto.GenreId == 0 || m.Genres
                         .Where(x => x.GenreId == moviesFilterDto.GenreId).Any())
-                        select new MoviesDto { Title = m.Title, Image = m.Image, Release = m.Release };
+                        select new MoviesDto { MovieId = m.MovieId, Title = m.Title, Image = m.Image, Release = m.Release };
 
             switch (moviesFilterDto.Order)
             {

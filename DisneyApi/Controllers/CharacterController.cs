@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CharactersController : ControllerBase
     {
@@ -102,7 +102,7 @@ namespace Controllers
             }
         }
 
-        [HttpPost("{characterId}/movie")]//Create Relationship
+        [HttpPost("{characterId}/Movie")]//Create Relationship
         public async Task<ActionResult> AddRelationship(int characterId, int movieId)
         {
             try
@@ -120,7 +120,7 @@ namespace Controllers
             }
         }
 
-        [HttpDelete("{characterId}/movie")]//Delete Relationship
+        [HttpDelete("{characterId}/Movie")]//Delete Relationship
         public async Task<ActionResult> DeleteRelationship(int characterId, int movieId)
         {
             try

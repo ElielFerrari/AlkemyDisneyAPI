@@ -5,7 +5,7 @@ using System.Data;
 
 namespace Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace Controllers
             _userService = userService;
         }
 
-        [HttpPost("register")] //User Register
+        [HttpPost("Register")] //User Register
         public async Task<ActionResult> Register(UserDto userDto)
         {
             try
@@ -34,7 +34,7 @@ namespace Controllers
             }
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<ActionResult<string>> Login(UserDto userDto)
         {
             try
@@ -47,8 +47,7 @@ namespace Controllers
             }
             catch
             {
-                return BadRequest("Algo salió mal.")
-;
+                return BadRequest("Algo salió mal.");
             }
         }
     }

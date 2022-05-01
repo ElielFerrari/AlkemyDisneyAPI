@@ -23,7 +23,7 @@ namespace BusinessLogic.Services
                             && (characterFilterDto.Age == 0 || c.Age == characterFilterDto.Age)
                             && (characterFilterDto.MovieId == 0 || c.Movies
                             .Where(x => x.MovieId == characterFilterDto.MovieId).Any())
-                            select new CharactersDto { Name = c.Name, Image = c.Image };
+                            select new CharactersDto { CharacterId = c.CharacterId, Name = c.Name, Image = c.Image };
 
             return await character.ToListAsync();
         }
@@ -104,7 +104,7 @@ namespace BusinessLogic.Services
             }
             else
             {
-                throw new KeyNotFoundException("El id del personaje o la película no existe o está repetido uno de los id.");
+                throw new KeyNotFoundException("El id del personaje o la película no existe o ya están relacionados.");
             }
         }
         public async Task DeleteRelationship(int characterId, int movieId)
